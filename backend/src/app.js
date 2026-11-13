@@ -2,7 +2,10 @@ const express = require('express');
 const { ZodError } = require('zod');
 const { registrar, ingresar } = require('./modules/m1-identidad/auth');
 
+const cors = require('./common/cors');
+
 const app = express();
+app.use(cors);
 app.use(express.json({ limit: '100kb' }));
 app.get('/health', (_req, res) => res.json({ estado: 'ok' }));
 app.post('/api/auth/registro', async (req, res) => {

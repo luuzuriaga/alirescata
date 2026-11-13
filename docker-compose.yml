@@ -19,6 +19,7 @@ services:
     environment:
       DATABASE_URL: postgres://alirescata:${DB_PASSWORD}@db:5432/alirescata
       JWT_SECRET: ${JWT_SECRET}
+      CORS_ORIGIN: http://localhost:5173
       TZ: America/Lima
     depends_on:
       db:
