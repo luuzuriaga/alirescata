@@ -82,6 +82,7 @@ body {
 }
 
 .grupo { margin: 0 0 18px; padding: 0; border: 0; }
+.grupo legend { padding: 0; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip {
   min-height: 36px;

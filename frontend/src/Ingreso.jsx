@@ -96,7 +96,7 @@ export default function Ingreso() {
                 </div>
               </fieldset>
               <label className="consentimiento">
-                <input type="checkbox" checked={acepta} onChange={(e) => setAcepta(e.target.checked)} />
+                <input type="checkbox" checked={acepta} onChange={(e) => { setAcepta(e.target.checked); setErrores((p) => ({ ...p, acepta: undefined })); }} />
                 <span>Acepto el tratamiento de mis datos personales (Ley 29733)</span>
               </label>
               {errores.acepta && <p className="error">{errores.acepta}</p>}
