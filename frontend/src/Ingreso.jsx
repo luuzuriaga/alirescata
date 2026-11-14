@@ -2,9 +2,19 @@ import { useState } from 'react';
 import { correoValido, contrasenaValida, nombresValidos } from './validaciones.js';
 import { ingresar, registrar } from './api.js';
 
+// Accesos rápidos a las cuentas de demostración del proyecto (app académica): un clic rellena el correo
+// y la contraseña e ingresa. Las cuentas deben existir en la base de datos del entorno.
+const CLAVE_DEMO = 'Alirescata2026';
+const CUENTAS_DEMO = [
+  ['Consumidor', 'consumidor@alirescata.pe'],
+  ['Comercio', 'comercio@alirescata.pe'],
+  ['Organización', 'organizacion@alirescata.pe'],
+  ['Administrador', 'admin@alirescata.pe'],
+];
+
 const ROLES = [['consumidor', 'Consumidor'], ['comercio', 'Comercio'], ['organizacion', 'Organización']];
 
-export default function Ingreso() {
+export default function Ingreso({ alIngresar, aviso }) {
   const [modo, setModo] = useState('ingresar');
   const [nombres, setNombres] = useState('');
   const [correo, setCorreo] = useState('');
@@ -13,7 +23,6 @@ export default function Ingreso() {
   const [acepta, setAcepta] = useState(false);
   const [errores, setErrores] = useState({});
   const [enviando, setEnviando] = useState(false);
-  const [sesion, setSesion] = useState(() => sessionStorage.getItem('token'));
   const creando = modo === 'crear';
 
   const cambiarModo = (m) => { setModo(m); setErrores({}); };
@@ -33,11 +42,21 @@ export default function Ingreso() {
     if (r.ok) r = await ingresar(correo, clave);
     setEnviando(false);
     if (!r.ok) return setErrores({ general: r.mensaje });
-    sessionStorage.setItem('token', r.token);
-    setSesion(r.token);
+    alIngresar(r.token);
   };
 
-  const salir = () => { sessionStorage.removeItem('token'); setSesion(null); setClave(''); };
+  // Rellena el correo y la contraseña de la cuenta elegida e ingresa.
+  const entrarComo = async (correoDemo) => {
+    setModo('ingresar');
+    setCorreo(correoDemo);
+    setClave(CLAVE_DEMO);
+    setErrores({});
+    setEnviando(true);
+    const r = await ingresar(correoDemo, CLAVE_DEMO);
+    setEnviando(false);
+    if (!r.ok) return setErrores({ general: r.mensaje });
+    alIngresar(r.token);
+  };
 
   const marca = (
     <header className="marca">
@@ -45,18 +64,6 @@ export default function Ingreso() {
       <p>Que ningún alimento apto se pierda</p>
     </header>
   );
-
-  if (sesion) {
-    return (
-      <main className="pantalla">
-        <div className="contenido">
-          {marca}
-          <p className="aviso">Ingresaste correctamente.</p>
-          <button type="button" className="boton boton-secundario" onClick={salir}>Cerrar sesión</button>
-        </div>
-      </main>
-    );
-  }
 
   return (
     <main className="pantalla">
@@ -67,6 +74,7 @@ export default function Ingreso() {
           <button type="button" role="tab" className="pestana" aria-selected={creando} onClick={() => cambiarModo('crear')}>Crear cuenta</button>
         </div>
         <form onSubmit={enviar} noValidate>
+          {aviso && !errores.general && <p role="status" className="nota">{aviso}</p>}
           {errores.general && <p role="alert" className="error-general">{errores.general}</p>}
           {creando && (
             <div className="campo">
@@ -106,6 +114,16 @@ export default function Ingreso() {
             {enviando ? 'Un momento…' : creando ? 'Crear cuenta' : 'Ingresar'}
           </button>
         </form>
+        <section className="demo" aria-labelledby="demo-titulo">
+            <h2 id="demo-titulo">Cuentas de demostración</h2>
+            <div className="demo-botones">
+              {CUENTAS_DEMO.map(([rolDemo, correoDemo]) => (
+                <button key={correoDemo} type="button" className="boton boton-secundario boton-demo" disabled={enviando} onClick={() => entrarComo(correoDemo)}>
+                  Entrar como {rolDemo.toLowerCase()}
+                </button>
+              ))}
+            </div>
+        </section>
       </div>
     </main>
   );

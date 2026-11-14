@@ -125,3 +125,176 @@ body {
   outline: 3px solid #81c784;
   outline-offset: 2px;
 }
+
+/* Aviso informativo en el ingreso (por ejemplo, sesión terminada) */
+.nota {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--borde);
+  border-radius: 8px;
+  background: var(--superficie);
+  font-size: 0.9rem;
+}
+
+/* Pantallas con barra superior: catálogo (I-05), detalle (I-06) y mis reservas */
+.app { max-width: 480px; min-height: 100vh; min-height: 100dvh; margin: 0 auto; }
+.barra {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px 16px;
+  background: var(--verde);
+  color: #fff;
+}
+.barra h1 { margin: 0; font-size: 1.2rem; font-weight: 700; }
+.barra-enlace, .barra-volver {
+  min-height: 40px;
+  padding: 4px 6px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+.barra-enlace { font-size: 0.9rem; }
+.barra-volver { margin-left: -6px; font-size: 1.05rem; font-weight: 700; }
+.barra-volver span { margin-right: 6px; }
+.barra-enlace:hover, .barra-volver:hover { background: var(--verde-oscuro); }
+.cuerpo { padding: 16px 16px 32px; }
+
+.buscador {
+  width: 100%;
+  min-height: 44px;
+  margin-bottom: 12px;
+  padding: 8px 16px;
+  border: 1.5px solid var(--borde);
+  border-radius: 999px;
+  background: var(--superficie);
+  color: var(--texto);
+  font: inherit;
+}
+.buscador::placeholder { color: #6f7a75; }
+.filtros { margin-bottom: 8px; }
+.chip[aria-pressed='true'] { background: var(--verde); color: #fff; }
+.chip-borde { background: var(--superficie); box-shadow: inset 0 0 0 1.5px var(--borde); }
+.chip-borde[aria-pressed='true'] { box-shadow: none; }
+
+.estado { margin: 28px 0; color: var(--texto-suave); text-align: center; }
+.ofertas { display: grid; gap: 12px; margin: 16px 0 0; padding: 0; list-style: none; }
+.tarjeta {
+  display: flex;
+  gap: 12px;
+  padding: 10px;
+  border: 1.5px solid var(--borde);
+  border-radius: 10px;
+  background: var(--superficie);
+}
+.foto {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 104px;
+  min-height: 104px;
+  border-radius: 8px;
+  background: #e6f2e7;
+  color: var(--texto-suave);
+  font-size: 0.8rem;
+}
+.foto { overflow: hidden; }
+.foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.descuento { z-index: 1; }
+.foto-grande { width: 100%; height: 180px; margin-bottom: 14px; font-size: 0.9rem; }
+.descuento {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: #bf360c;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.tarjeta-datos { flex: 1; min-width: 0; }
+.tarjeta h2, .reserva h2 { margin: 2px 0 0; font-size: 1rem; font-weight: 700; overflow-wrap: anywhere; }
+.suave { margin: 2px 0 0; color: var(--texto-suave); font-size: 0.85rem; }
+.precios { display: flex; align-items: baseline; gap: 10px; margin: 6px 0 2px; }
+.precio { color: var(--verde); font-size: 1.3rem; font-weight: 700; }
+.precio-regular { color: var(--texto-suave); font-size: 0.9rem; }
+.precios-grandes { margin: 12px 0; }
+.precios-grandes .precio { font-size: 1.6rem; }
+.recojo { margin: 0; font-size: 0.85rem; }
+.tarjeta-pie { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 4px; }
+.disponibles { color: #bf360c; font-size: 0.85rem; font-weight: 700; }
+.boton-chico { width: auto; min-height: 40px; margin-top: 0; padding: 6px 18px; font-size: 0.95rem; }
+
+.titulo { margin: 0; font-size: 1.3rem; font-weight: 700; }
+.linea { margin: 6px 0 0; font-size: 0.92rem; }
+.alergenos { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.alergeno { padding: 2px 10px; border-radius: 999px; background: #fde3e1; color: #b71c1c; font-size: 0.85rem; font-weight: 700; }
+.nota-pago {
+  margin: 14px 0;
+  padding: 10px 12px;
+  border: 1.5px solid #f2c14e;
+  border-radius: 8px;
+  background: #fff8e1;
+  font-size: 0.9rem;
+}
+.cantidad { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; font-weight: 700; }
+.pasos { display: flex; align-items: center; gap: 14px; }
+.pasos output { min-width: 1.5ch; font-size: 1.2rem; text-align: center; }
+.paso {
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--verde);
+  border-radius: 8px;
+  background: var(--superficie);
+  color: var(--verde);
+  font: inherit;
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.paso:disabled { border-color: var(--borde); color: var(--borde); cursor: not-allowed; }
+.cantidad + .error-general { margin: 12px 0 0; }
+
+.confirmada {
+  margin-top: 20px;
+  padding: 16px;
+  border: 2px solid var(--verde);
+  border-radius: 10px;
+  background: var(--superficie);
+  text-align: center;
+}
+.confirmada h2 { margin: 0; color: var(--verde); font-size: 1rem; }
+.codigo {
+  margin: 10px 0 6px;
+  padding-left: 0.3em;
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  font-variant-numeric: tabular-nums;
+}
+
+.reserva { padding: 12px; border: 1.5px solid var(--borde); border-radius: 10px; background: var(--superficie); }
+.reserva-cabecera { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.etiqueta { flex: none; padding: 2px 10px; border-radius: 999px; background: var(--chip); font-size: 0.8rem; font-weight: 700; }
+.etiqueta-activa { background: #e6f2e7; color: var(--verde-oscuro); }
+.codigo-chico { margin: 8px 0 0; font-size: 1.5rem; }
+
+:is(.barra-enlace, .barra-volver):focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+:is(.buscador, .paso):focus-visible { outline: 3px solid #81c784; outline-offset: 2px; }
+
+/* Accesos rápidos a las cuentas de demostración */
+.demo { margin-top: 28px; padding-top: 18px; border-top: 1.5px solid var(--borde); }
+.demo h2 { margin: 0 0 10px; color: var(--texto-suave); font-size: 0.9rem; }
+.demo-botones { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.boton-demo { min-height: 44px; margin-top: 0; padding: 6px 8px; font-size: 0.9rem; }
