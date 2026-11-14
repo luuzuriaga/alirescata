@@ -12,7 +12,7 @@ async function reservar(idOferta, idConsumidor, cantidad) {
     const u = await client.query(
       `UPDATE oferta SET stock_disponible = stock_disponible - $2
         WHERE id_oferta = $1 AND estado = 'publicada' AND stock_disponible >= $2
-          AND now() BETWEEN ventana_inicio AND ventana_fin
+          AND now() < ventana_fin
       RETURNING precio_oferta`, [idOferta, cantidad]);
     if (u.rowCount === 0) throw new SinStock('ya no hay stock');
     const codigo = String(crypto.randomInt(0, 1000000)).padStart(6, '0');
@@ -23,4 +23,18 @@ async function reservar(idOferta, idConsumidor, cantidad) {
     return r.rows[0];
   } catch (e) { await client.query('ROLLBACK'); throw e; } finally { client.release(); }
 }
-module.exports = { reservar, SinStock };
+
+async function reservasDe(idConsumidor) {
+  const r = await pool.query(
+    `SELECT r.id_reserva, r.codigo_recojo, r.cantidad, r.precio_unitario::float8 AS precio_unitario,
+            r.estado, r.reservada_en, o.ventana_inicio, o.ventana_fin,
+            p.nombre, c.nombre_comercial, c.direccion
+       FROM reserva r
+       JOIN oferta o ON o.id_oferta = r.id_oferta
+       JOIN producto p ON p.id_producto = o.id_producto
+       JOIN comercio c ON c.id_comercio = p.id_comercio
+      WHERE r.id_consumidor = $1
+      ORDER BY r.reservada_en DESC`, [idConsumidor]);
+  return r.rows;
+}
+module.exports = { reservar, reservasDe, SinStock };
